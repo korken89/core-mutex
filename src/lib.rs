@@ -11,12 +11,12 @@
 //! ```
 //! use core_mutex::*;
 //!
-//! // A function taking 2 mute exes
+//! // A function taking 2 mutexes
 //! fn normal_lock(
 //!     a: &mut impl Mutex<Data = i32>,
 //!     b: &mut impl Mutex<Data = i32>,
 //! ) {
-//!     // Taking each lock manually
+//!     // Taking each lock separately
 //!     a.lock(|a| {
 //!         b.lock(|b| {
 //!             *a += 1;
