@@ -148,6 +148,7 @@ pub mod prelude {
     );
 }
 
+use core::cell::RefCell;
 pub use prelude::*;
 
 /// Any object implementing this trait guarantees exclusive access to the data contained
@@ -169,6 +170,15 @@ where
 
     fn lock<R>(&mut self, f: impl FnOnce(&mut Self::Data) -> R) -> R {
         L::lock(self, f)
+    }
+}
+
+// A RefCell is a lock in single threaded applications
+impl<T> Mutex for &'_ RefCell<T> {
+    type Data = T;
+
+    fn lock<R>(&mut self, f: impl FnOnce(&mut T) -> R) -> R {
+        f(&mut self.borrow_mut())
     }
 }
 
