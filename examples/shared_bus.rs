@@ -95,18 +95,6 @@ impl i2c::Write for I2c1 {
     }
 }
 
-
-//
-// Extension of the core-mutex (a RefCell is practically a lock in single threaded applications)
-//
-impl<T> Mutex for &'_ RefCell<T> {
-    type Data = T;
-
-    fn lock<R>(&mut self, f: impl FnOnce(&mut T) -> R) -> R {
-        f(&mut self.borrow_mut())
-    }
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////// APPLICATIONS BELLOW ///////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +117,7 @@ fn app() {
 //
 // Concurrent application usage
 //
-static I2C1: cortex_m::Mutex<RefCell<Option<I2C1>>> = Mutex::new(RefCell::new(None));
+static I2C1: cortex_m::Mutex<RefCell<Option<I2c1>>> = cortex_m::Mutex::new(RefCell::new(None));
 
 fn main() {
     // initialize I2C1

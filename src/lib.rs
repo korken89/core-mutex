@@ -249,4 +249,23 @@ mod tests {
             *b += 1;
         });
     }
+
+    #[test]
+    fn refcell_lock() {
+        let a = core::cell::RefCell::new(0);
+        let b = core::cell::RefCell::new(0);
+
+        (&a).lock(|a| {
+            *a += 1;
+        });
+
+        (&b).lock(|b| {
+            *b += 1;
+        });
+
+        (&a, &b).lock(|a,b| {
+            *a += 1;
+            *b += 1;
+        });
+    }
 }

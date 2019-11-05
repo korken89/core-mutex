@@ -20,9 +20,7 @@ where
     }
 
     pub fn do_something(&mut self) {
-        self.mtx.lock(|data| {
-            // Do something
-        });
+        self.driver.do_something(&mut self.mtx);
     }
 }
 
@@ -37,7 +35,7 @@ impl GenericDriver {
     }
 
     // Here any Mutex can be used, std, RTFM, cortex-m
-    pub fn do_something(mtx: &mut impl core_mutex::Mutex<Data = DriverData>) {
+    pub fn do_something(&mut self, mtx: &mut impl core_mutex::Mutex<Data = DriverData>) {
         mtx.lock(|data| {
             // Do something
         });
